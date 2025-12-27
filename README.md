@@ -1,224 +1,198 @@
-\# Immune Defense Game
+# Immune Defense Game
 
+A Unity-based first-person shooter with a biomedical engineering theme. Play as a leukocyte (white blood cell) defending the body against pathogen invasion.
 
+## Game Concept
 
-Unity game project for Computer Vision course - biomedical engineering themed first-person shooter.
+Navigate through tissue environments as an immune cell and neutralize bacterial threats using your immune system abilities. This educational game demonstrates core Unity systems while teaching players about cellular immunity.
 
+## Technical Requirements
 
+- **Unity Version:** 6.3 LTS (6000.3.2f1)
+- **Render Pipeline:** URP (Universal Render Pipeline)
+- **Platform:** Windows / Mac / Linux
 
-\## 🎮 Game Concept
+### Dependencies
 
+| Package | Version | Purpose |
+|---------|---------|---------|
+| Universal RP | 17.3.0 | Rendering pipeline |
+| Cinemachine | 2.10.5 | Camera system |
+| Input System | 1.17.0 | Input handling |
+| AI Navigation | 2.0.9 | NavMesh systems |
+| Shader Graph | 17.3.0 | Visual shaders |
 
+## Controls
 
-Play as a leukocyte (white blood cell) defending the body against pathogen invasion. Navigate through tissue environments and neutralize bacterial threats using your immune system abilities.
+| Input | Action |
+|-------|--------|
+| WASD | Move |
+| Mouse | Look around |
+| Space | Jump |
+| Shift | Sprint |
+| Left Click | Shoot |
 
-
-
-\## Technical Requirements
-
-
-
-\- \*\*Unity Version:\*\* 6.3 LTS (6000.3.2f1)
-
-\- \*\*Render Pipeline:\*\* URP (Universal Render Pipeline)
-
-\- \*\*Platform:\*\* Windows/Mac/Linux
-
-
-
-\## Project Requirements Demonstration
-
-
-
-This project demonstrates:
-
-\- ✅ \*\*First-Person Controller\*\* - Player movement with WASD + mouse look
-
-\- ✅ \*\*Physics System\*\* - Rigidbody enemies, collision detection
-
-\- ✅ \*\*Materials \& Shaders\*\* - Custom glowing pathogen materials
-
-\- ✅ \*\*Particle Systems\*\* - Death effects on enemy destruction
-
-\- ✅ \*\*Audio\*\* - Background music and sound effects (in progress)
-
-\- ✅ \*\*C# Scripting\*\* - Enemy AI, shooting mechanics, game logic
-
-
-
-\## Controls
-
-
-
-\- \*\*WASD\*\* - Move
-
-\- \*\*Mouse\*\* - Look around
-
-\- \*\*Space\*\* - Jump
-
-\- \*\*Shift\*\* - Sprint
-
-\- \*\*Left Click\*\* - Shoot
-
-
-
-\## Project Structure
+## Project Structure
 
 ```
-
 Assets/
-
-├── \_Project/              # Our custom game content
-
-│   ├── Scenes/           # Game scenes
-
-│   ├── Scripts/          
-
-│   │   ├── Combat/       # Player shooting, enemy AI
-
-│   │   ├── Visuals/      # Particles, materials, audio
-
-│   │   └── Core/         # Game managers, shared logic
-
-│   ├── Prefabs/          # Reusable game objects
-
-│   ├── Materials/        # Custom materials
-
-│   └── Audio/            # Sound effects and music
-
-├── StarterAssets/        # Unity first-person controller
-
-└── JMO Assets/           # Cartoon FX particle effects
-
+├── _Project/                    # Custom game content
+│   ├── Scenes/
+│   │   └── MainGame.unity       # Main playable scene
+│   ├── Scripts/
+│   │   ├── Combat/
+│   │   │   ├── PlayerShooting.cs    # Raycast shooting mechanic
+│   │   │   └── EnemyFollow.cs       # Enemy AI behavior
+│   │   ├── Core/                # Game managers (reserved)
+│   │   └── Visuals/             # Particles/audio (reserved)
+│   ├── Prefabs/
+│   │   └── Pathogen_Bacteria.prefab
+│   ├── Materials/
+│   │   └── PathogenRed.mat      # Glowing enemy material
+│   └── Audio/                   # Sound effects (in progress)
+│
+├── StarterAssets/               # Unity FPS controller package
+│   ├── FirstPersonController/
+│   │   └── Scripts/
+│   │       ├── FirstPersonController.cs
+│   │       └── BasicRigidBodyPush.cs
+│   ├── InputSystem/
+│   │   └── StarterAssetsInputs.cs
+│   └── Environment/             # Prefabs for level design
+│
+└── JMO Assets/
+    └── Cartoon FX Remaster/     # 100+ particle effects
 ```
 
+## Technical Implementation
 
+### Player System
+- **Movement:** CharacterController-based with walk (4 m/s) and sprint (6 m/s)
+- **Camera:** Cinemachine with vertical pitch clamping (-90 to +90 degrees)
+- **Grounded Detection:** Sphere cast at capsule base
+- **Gravity:** -15.0 m/s²
 
-\## Setup Instructions
+### Combat System
+- **Shooting:** Raycast-based hitscan (100m range)
+- **Targeting:** Center-screen viewport ray from camera
+- **Layer Filtering:** Enemy layer (Layer 6) for hit detection
+- **Feedback:** Particle effects spawn at impact point
 
+### Enemy AI
+- **Behavior:** Continuously follows player position
+- **Stop Distance:** 1.5 units from player
+- **Float Height:** 1.0 unit (floating bacteria effect)
+- **Speed:** 2 m/s
+- **Orientation:** Always faces player
 
+### Materials
+- **PathogenRed:** URP/Lit shader with emission for glowing effect
 
-\### First Time Setup:
+## Setup Instructions
 
+### First Time Setup
 
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/rociavl/Cellular-Immunity-Simulation.git
+   cd "My project"
+   ```
 
-1\. \*\*Clone the repository:\*\*
+2. **Open in Unity Hub:**
+   - Click "Add" > "Add project from disk"
+   - Select the project folder
+   - Unity will import all assets (2-3 minutes)
 
+3. **Open the main scene:**
+   - Navigate to `Assets/_Project/Scenes/MainGame.unity`
+   - Double-click to open
+
+4. **Press Play** to test the game
+
+### Git Workflow
+
+**Before starting work:**
 ```bash
-
-&nbsp;  git clone https://github.com/rociavl/Cellular-Immunity-Simulation.git
-
-&nbsp;  cd ImmuneDefense
-
-```
-
-
-
-2\. \*\*Open in Unity Hub:\*\*
-
-&nbsp;  - Add project from disk
-
-&nbsp;  - Select "ImmuneDefense" folder
-
-&nbsp;  - Unity will import all assets (may take 2-3 minutes)
-
-
-
-3\. \*\*Open the main scene:\*\*
-
-&nbsp;  - Navigate to `Assets/\_Project/Scenes/MainGame.unity`
-
-&nbsp;  - Double-click to open
-
-
-
-4\. \*\*Press Play\*\* to test!
-
-
-
-\### Working with Git:
-
-
-
-\*\*Before starting work:\*\*
-
-```bash
-
 git pull origin main
-
 ```
 
-
-
-\*\*After making changes:\*\*
-
+**After making changes:**
 ```bash
-
 git add .
-
-git commit -m "Descriptive message about your changes"
-
+git commit -m "Description of changes"
 git push origin main
-
 ```
 
+## Current Features
 
+- [x] First-person movement and camera
+- [x] Enemy AI (follows player, maintains distance)
+- [x] Raycast shooting mechanic
+- [x] Particle effects on enemy death
+- [x] Custom glowing enemy materials
+- [x] Physics system (colliders, gravity)
+- [ ] Audio system
+- [ ] Score UI
+- [ ] Wave spawning
 
-\## Current Features (Phase 1)
+## Planned Features
 
+### Phase 2
+- Multiple enemy types (bacteria, viruses, fungi)
+- Wave-based spawning system
+- Player health and damage system
+- UI elements (health bar, score counter)
 
+### Phase 3
+- Multiple abilities (phagocytosis, cytokine burst)
+- Victory/defeat screens
+- Difficulty levels
+- Additional environments
 
-\- \[x] First-person movement
+## Troubleshooting
 
-\- \[x] Enemy AI (follows player, stops at distance)
+### Common Issues
 
-\- \[x] Shooting mechanic (raycast-based)
+**Pink/magenta materials:**
+- Ensure URP is properly configured in Project Settings > Graphics
+- Reimport materials: Right-click > Reimport
 
-\- \[x] Particle effects on enemy death
+**Player falls through floor:**
+- Check that ground objects have colliders
+- Verify player has CharacterController component
 
-\- \[x] Custom glowing enemy materials
+**Enemies not taking damage:**
+- Ensure enemies are on Layer 6 (Enemy)
+- Verify enemies have the "Enemy" tag
 
-\- \[ ] Audio system (in progress)
+**Input not working:**
+- Check Edit > Project Settings > Input System Package
+- Ensure StarterAssetsInputs is attached to player
 
-\- \[ ] Score UI (in progress)
+## Project Requirements Demonstration
 
-\- \[ ] Wave spawning (planned)
+This project demonstrates the following Unity concepts:
 
+| Requirement | Implementation |
+|-------------|----------------|
+| First-Person Controller | WASD + mouse look system |
+| Physics System | Rigidbody enemies, collision detection |
+| Materials & Shaders | Custom glowing pathogen materials (URP/Lit with emission) |
+| Particle Systems | Death effects using Cartoon FX Remaster |
+| Audio | Background music and SFX (in progress) |
+| C# Scripting | Enemy AI, shooting mechanics, game logic |
 
+## Third-Party Assets
 
-\## Planned Features (Phase 2 \& 3)
+- **[Unity Starter Assets](https://assetstore.unity.com/packages/essentials/starter-assets-first-person-character-controller-196525)** - First-person controller foundation
+- **[Cartoon FX Remaster](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-109565)** - Particle effects library by Jean Moreno (JMO Assets)
 
+## Course Information
 
+**Course:** Computer Vision - Pattern Recognition
+**Institution:** Universitat Politècnica de Catalunya (UPC EEBE)
+**Assignment:** Unity Game Development with Technical Systems Integration
 
-\- Multiple enemy types (bacteria, viruses, fungi)
-
-\- Wave-based spawning system
-
-\- Player health and damage
-
-\- Multiple abilities (phagocytosis, cytokine burst)
-
-\- UI score counter and health bar
-
-\- Victory/defeat screens
-
-
-
-\## Course Information
-
-
-
-\*\*Course:\*\* Computer Vision - Pattern Recognition  
-
-\*\*Institution:\*\* Universitat Politècnica de Catalunya (UPC EEBE)  
-
-\*\*Assignment:\*\* Unity Game Development with Technical Systems Integration
-
-
-
-\## 📄 License
-
-
+## License
 
 Educational project - UPC EEBE 2025-2026
-
