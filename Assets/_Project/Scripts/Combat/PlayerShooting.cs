@@ -1,7 +1,10 @@
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
-{
+{   
+    [Header("Audio")]
+    public AudioClip shootSound;
+
     [Header("Shooting Settings")]
     public Camera playerCamera;
     public float shootRange = 100f;
@@ -21,6 +24,13 @@ public class PlayerShooting : MonoBehaviour
 
     void Shoot()
     {
+
+        // Play shoot sound
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
         // Create ray from center of camera
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
