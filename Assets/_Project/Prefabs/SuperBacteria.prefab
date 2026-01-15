@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 3879563256565762148}
   - component: {fileID: 3395088148198128335}
   - component: {fileID: 1499775545555112901}
-  - component: {fileID: 2203233054566439072}
+  - component: {fileID: 1759159928573719167}
   m_Layer: 6
-  m_Name: Pathogen_Bacteria
+  m_Name: SuperBacteria
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 734f85470af14924ba1153535305f8a3, type: 2}
+  - {fileID: 2100000, guid: 953a76d0cd40897408e5684b98f20036, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BacteriaSplitter
   bacteriaPrefab: {fileID: 2916229833224808176}
   splitChance: 0.33
---- !u!114 &2203233054566439072
+--- !u!114 &1759159928573719167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,4 +185,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d81eb0e825ceb41b070f27344926b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
-  maxHealth: 1
+  maxHealth: 5
