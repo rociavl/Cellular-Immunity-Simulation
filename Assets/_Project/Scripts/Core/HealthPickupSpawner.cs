@@ -14,6 +14,11 @@ public class HealthPickupSpawner : MonoBehaviour
 
     void Start()
     {
+        // Don't auto-start - wait for IntroManager to call StartSpawning()
+    }
+
+    public void StartSpawning()
+    {
         InvokeRepeating(nameof(TrySpawnHealthPickup), initialDelay, spawnInterval);
     }
 

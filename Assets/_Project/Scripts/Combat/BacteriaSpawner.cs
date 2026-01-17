@@ -14,6 +14,11 @@ public class BacteriaSpawner : MonoBehaviour
 
     void Start()
     {
+        // Don't auto-start - wait for IntroManager to call StartSpawning()
+    }
+
+    public void StartSpawning()
+    {
         InvokeRepeating("SpawnEnemy", 0f, spawnTime);
     }
 
