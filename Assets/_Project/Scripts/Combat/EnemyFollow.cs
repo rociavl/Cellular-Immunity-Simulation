@@ -9,7 +9,13 @@ public class EnemyFollow : MonoBehaviour
     public float floatHeight = 1f;
     public float stopDistance = 1.5f;
 
+    [Header("Attack Settings")]
+    public int damageAmount = 10;
+    public float attackCooldown = 1f;
+    private float lastAttackTime = -999f;
+
     private Rigidbody rb;
+    private PlayerHealth playerHealth;
 
     void Start()
     {
@@ -18,7 +24,6 @@ public class EnemyFollow : MonoBehaviour
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
 
-        // --- NEW CODE STARTS HERE ---
         // If the player variable is empty (null), find the object tagged as "Player" automatically
         if (player == null)
         {
@@ -26,9 +31,13 @@ public class EnemyFollow : MonoBehaviour
             if (playerObj != null)
             {
                 player = playerObj.transform;
+                playerHealth = playerObj.GetComponent<PlayerHealth>();
             }
         }
-        // --- NEW CODE ENDS HERE ---
+        else
+        {
+            playerHealth = player.GetComponent<PlayerHealth>();
+        }
     }
 
     void FixedUpdate()
@@ -54,6 +63,24 @@ public class EnemyFollow : MonoBehaviour
 
                 rb.MovePosition(nextPosition);
             }
+            else
+            {
+                // 4. Attack player when close enough
+                TryAttackPlayer();
+            }
+        }
+    }
+
+    void TryAttackPlayer()
+    {
+        // Check cooldown
+        if (Time.time - lastAttackTime < attackCooldown) return;
+
+        // Deal damage to player
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(damageAmount);
+            lastAttackTime = Time.time;
         }
     }
 }

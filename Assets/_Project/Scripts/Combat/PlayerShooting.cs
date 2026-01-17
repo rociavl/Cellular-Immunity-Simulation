@@ -94,6 +94,14 @@ public class PlayerShooting : MonoBehaviour
                     Instantiate(deathParticle, hit.point + (hit.normal * 0.2f), Quaternion.LookRotation(hit.normal));
                 }
 
+                // Add score for kill
+                if (GameManager.Instance != null)
+                {
+                    // Super bacteria worth more points
+                    int points = (enemyHealth != null && enemyHealth.maxHealth > 1) ? 50 : 10;
+                    GameManager.Instance.AddScore(points);
+                }
+
                 Debug.Log("Enemy destroyed!");
 
                 // C) Check for splitting ability
