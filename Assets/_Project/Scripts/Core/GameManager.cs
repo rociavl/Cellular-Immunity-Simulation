@@ -9,6 +9,14 @@ public class GameManager : MonoBehaviour
     public int score = 0;
     public bool isGameOver = false;
 
+    // Static variable to remember if we already watched the intro in this session
+    private static bool hasSeenIntro = false;
+
+    [Header("References")]
+    public GameObject introPanel;          // The Menu UI
+    public BacteriaSpawner bacteriaSpawner; // Reference to enemy spawner
+    public HealthPickupSpawner healthSpawner; // Reference to health spawner
+
     // Events for UI updates
     public System.Action<int> OnScoreChanged;
     public System.Action OnGameOver;
@@ -22,6 +30,57 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    void Start()
+    {
+        // Logic to decide if we show menu or start playing directly (restart)
+        if (hasSeenIntro)
+        {
+            StartGameplay();
+        }
+        else
+        {
+            ShowIntro();
+        }
+    }
+
+    void ShowIntro()
+    {
+        // Pause game and show cursor
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (introPanel != null)
+            introPanel.SetActive(true);
+    }
+
+    // LINK THIS FUNCTION TO YOUR "PLAY" BUTTON
+    public void StartGameButton()
+    {
+        hasSeenIntro = true;
+        StartGameplay();
+    }
+
+    void StartGameplay()
+    {
+        // Unpause and hide cursor
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        isGameOver = false;
+
+        if (introPanel != null)
+            introPanel.SetActive(false);
+
+        // Tell spawners to start working NOW (not before)
+        if (bacteriaSpawner != null)
+        {
+            bacteriaSpawner.StartSpawning();
+        }
+
+        if (healthSpawner != null) healthSpawner.StartSpawning();
     }
 
     public void AddScore(int points)
@@ -43,12 +102,13 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        // Optional: Slow down time for dramatic effect
+        // Slow down time for dramatic effect
         Time.timeScale = 0.3f;
     }
 
     public void RestartGame()
     {
+        // Reset time before reloading
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -56,10 +116,10 @@ public class GameManager : MonoBehaviour
     public void QuitGame()
     {
         Time.timeScale = 1f;
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
 }
