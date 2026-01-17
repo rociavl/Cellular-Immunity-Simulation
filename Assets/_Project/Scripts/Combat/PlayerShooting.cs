@@ -20,6 +20,10 @@ public class PlayerShooting : MonoBehaviour
     [Range(0.01f, 1f)]
     public float trailDuration = 0.1f; // How long the trail is visible
 
+    [Header("Score settings")]
+    public int normalBacteriaScore = 10;
+    public int SuperBacteriaScore = 100;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -98,7 +102,7 @@ public class PlayerShooting : MonoBehaviour
                 if (GameManager.Instance != null)
                 {
                     // Super bacteria worth more points
-                    int points = (enemyHealth != null && enemyHealth.maxHealth > 1) ? 50 : 10;
+                    int points = (enemyHealth != null && enemyHealth.maxHealth > 1) ? SuperBacteriaScore : normalBacteriaScore;
                     GameManager.Instance.AddScore(points);
                 }
 
